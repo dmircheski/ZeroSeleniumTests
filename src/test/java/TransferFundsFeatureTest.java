@@ -5,6 +5,7 @@ import Pages.TransferFundsPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -41,6 +42,19 @@ public class TransferFundsFeatureTest {
     public void transferFundsTest() throws InterruptedException {
         transferFundsPage.clickToAccountDropdown();
         transferFundsPage.clickToAccountOption();
+        transferFundsPage.enterAmount();
+        transferFundsPage.enterDescription();
+        transferFundsPage.clickSubmitButton();
+        transferFundsPage.clickSubmitButton();
+
+        String expectedToAccount = "Savings";
+        String expectedAmmount = "$ 300";
+        String expectedSuccessMessage = "You successfully submitted your transaction.";
+
+        Assert.assertEquals(transferFundsPage.getSuccessfulMessageText(), expectedSuccessMessage);
+        Assert.assertEquals(transferFundsPage.fromAccountText(), expectedToAccount);
+        Assert.assertEquals(transferFundsPage.toAccountText(), expectedToAccount);
+        Assert.assertEquals(transferFundsPage.amountText(), expectedAmmount);
 
     }
 
